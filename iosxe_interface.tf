@@ -9,7 +9,7 @@ locals {
         media_type                     = try(int.media_type, local.defaults.iosxe.devices.configuration.interfaces.ethernets.media_type, null)
         bandwidth                      = try(int.bandwidth, local.defaults.iosxe.devices.configuration.interfaces.ethernets.bandwidth, null)
         description                    = try(int.description, local.defaults.iosxe.devices.configuration.interfaces.ethernets.description, null)
-        shutdown                       = try(int.shutdown, local.defaults.iosxe.devices.configuration.interfaces.ethernets.shutdown, false)
+        shutdown                       = try(int.shutdown, local.defaults.iosxe.devices.configuration.interfaces.ethernets.shutdown, null)
         vrf_forwarding                 = try(int.vrf_forwarding, local.defaults.iosxe.devices.configuration.interfaces.ethernets.vrf_forwarding, null)
         ipv4_address                   = try(int.ipv4.address, local.defaults.iosxe.devices.configuration.interfaces.ethernets.ipv4.address, null)
         ipv4_address_mask              = try(int.ipv4.address_mask, local.defaults.iosxe.devices.configuration.interfaces.ethernets.ipv4.address_mask, null)
@@ -24,9 +24,9 @@ locals {
           vrf     = try(ha.vrf, local.defaults.iosxe.devices.configuration.interfaces.ethernets.ipv4.helper_addresses.vrf, null)
         }]
         ip_access_group_in         = try(int.ipv4.access_group_in, local.defaults.iosxe.devices.configuration.interfaces.ethernets.ipv4.access_group_in, null)
-        ip_access_group_in_enable  = try(int.ipv4.access_group_in, local.defaults.iosxe.devices.configuration.interfaces.ethernets.ipv4.access_group_in, null) != null ? true : false
+        ip_access_group_in_enable  = try(int.ipv4.access_group_in, local.defaults.iosxe.devices.configuration.interfaces.ethernets.ipv4.access_group_in, null) != null ? true : null
         ip_access_group_out        = try(int.ipv4.access_group_out, local.defaults.iosxe.devices.configuration.interfaces.ethernets.ipv4.access_group_out, null)
-        ip_access_group_out_enable = try(int.ipv4.access_group_out, local.defaults.iosxe.devices.configuration.interfaces.ethernets.ipv4.access_group_out, null) != null ? true : false
+        ip_access_group_out_enable = try(int.ipv4.access_group_out, local.defaults.iosxe.devices.configuration.interfaces.ethernets.ipv4.access_group_out, null) != null ? true : null
         ip_flow_monitors = [for fm in try(int.ipv4.flow_monitors, []) : {
           name      = fm.name
           direction = try(fm.direction, local.defaults.iosxe.devices.configuration.interfaces.ethernets.ipv4.flow_monitors.direction, null)
@@ -34,7 +34,7 @@ locals {
         ip_redirects    = try(int.ipv4.redirects, local.defaults.iosxe.devices.configuration.interfaces.ethernets.ipv4.redirects, null)
         ip_unreachables = try(int.ipv4.unreachables, local.defaults.iosxe.devices.configuration.interfaces.ethernets.ipv4.unreachables, null)
         unnumbered      = try(int.ipv4.unnumbered, local.defaults.iosxe.devices.configuration.interfaces.ethernets.ipv4.unnumbered, null)
-        source_template = try(int.source_template, local.defaults.iosxe.devices.configuration.interfaces.ethernets.source_template, [])
+        source_template = try(int.source_template, local.defaults.iosxe.devices.configuration.interfaces.ethernets.source_template, null)
         ipv6_enable     = try(int.ipv6.enable, local.defaults.iosxe.devices.configuration.interfaces.ethernets.ipv6.enable, null)
         ipv6_addresses = [for addr in try(int.ipv6.addresses, []) : {
           prefix = "${addr.prefix}/${addr.prefix_length}"
@@ -80,7 +80,7 @@ locals {
         load_interval                            = try(int.load_interval, local.defaults.iosxe.devices.configuration.interfaces.ethernets.load_interval, null)
         snmp_trap_link_status                    = try(int.snmp_trap_link_status, local.defaults.iosxe.devices.configuration.interfaces.ethernets.snmp_trap_link_status, null)
         logging_event_link_status_enable         = try(int.logging_event_link_status, local.defaults.iosxe.devices.configuration.interfaces.ethernets.logging_event_link_status, null)
-        switchport                               = try(int.switchport.mode, local.defaults.iosxe.devices.configuration.interfaces.ethernets.switchport.mode, null) != null ? true : false
+        switchport                               = try(int.switchport.mode, local.defaults.iosxe.devices.configuration.interfaces.ethernets.switchport.mode, null) != null ? true : null
         switchport_access_vlan                   = try(int.switchport.access_vlan, local.defaults.iosxe.devices.configuration.interfaces.ethernets.switchport.access_vlan, null)
         switchport_mode_access                   = try(int.switchport.mode, local.defaults.iosxe.devices.configuration.interfaces.ethernets.switchport.mode, null) == "access" ? true : null
         switchport_mode_trunk                    = try(int.switchport.mode, local.defaults.iosxe.devices.configuration.interfaces.ethernets.switchport.mode, null) == "trunk" ? true : null
@@ -361,15 +361,15 @@ locals {
         device                     = device.name
         id                         = int.id
         description                = try(int.description, local.defaults.iosxe.devices.configuration.interfaces.loopbacks.description, null)
-        shutdown                   = try(int.shutdown, local.defaults.iosxe.devices.configuration.interfaces.loopbacks.shutdown, false)
+        shutdown                   = try(int.shutdown, local.defaults.iosxe.devices.configuration.interfaces.loopbacks.shutdown, null)
         vrf_forwarding             = try(int.vrf_forwarding, local.defaults.iosxe.devices.configuration.interfaces.loopbacks.vrf_forwarding, null)
         ipv4_address               = try(int.ipv4.address, local.defaults.iosxe.devices.configuration.interfaces.loopbacks.ipv4.address, null)
         ipv4_address_mask          = try(int.ipv4.address_mask, local.defaults.iosxe.devices.configuration.interfaces.loopbacks.ipv4.address_mask, null)
         ip_proxy_arp               = try(int.ipv4.proxy_arp, local.defaults.iosxe.devices.configuration.interfaces.loopbacks.ipv4.proxy_arp, null)
         ip_access_group_in         = try(int.ipv4.access_group_in, local.defaults.iosxe.devices.configuration.interfaces.loopbacks.ipv4.access_group_in, null)
-        ip_access_group_in_enable  = try(int.ipv4.access_group_in, local.defaults.iosxe.devices.configuration.interfaces.loopbacks.ipv4.access_group_in, null) != null ? true : false
+        ip_access_group_in_enable  = try(int.ipv4.access_group_in, local.defaults.iosxe.devices.configuration.interfaces.loopbacks.ipv4.access_group_in, null) != null ? true : null
         ip_access_group_out        = try(int.ipv4.access_group_out, local.defaults.iosxe.devices.configuration.interfaces.loopbacks.ipv4.access_group_out, null)
-        ip_access_group_out_enable = try(int.ipv4.access_group_out, local.defaults.iosxe.devices.configuration.interfaces.loopbacks.ipv4.access_group_out, null) != null ? true : false
+        ip_access_group_out_enable = try(int.ipv4.access_group_out, local.defaults.iosxe.devices.configuration.interfaces.loopbacks.ipv4.access_group_out, null) != null ? true : null
         ip_redirects               = try(int.ipv4.redirects, local.defaults.iosxe.devices.configuration.interfaces.loopbacks.ipv4.redirects, null)
         ip_unreachables            = try(int.ipv4.unreachables, local.defaults.iosxe.devices.configuration.interfaces.loopbacks.ipv4.unreachables, null)
         source_template            = try(int.source_template, local.defaults.iosxe.devices.configuration.interfaces.loopbacks.source_template, [])
@@ -540,7 +540,7 @@ locals {
         id                             = int.id
         type                           = try(int.type, local.defaults.iosxe.devices.configuration.interfaces.vlans.type, null)
         description                    = try(int.description, local.defaults.iosxe.devices.configuration.interfaces.vlans.description, null)
-        shutdown                       = try(int.shutdown, local.defaults.iosxe.devices.configuration.interfaces.vlans.shutdown, false)
+        shutdown                       = try(int.shutdown, local.defaults.iosxe.devices.configuration.interfaces.vlans.shutdown, null)
         vrf_forwarding                 = try(int.vrf_forwarding, local.defaults.iosxe.devices.configuration.interfaces.vlans.vrf_forwarding, null)
         ipv4_address                   = try(int.ipv4.address, local.defaults.iosxe.devices.configuration.interfaces.vlans.ipv4.address, null)
         ipv4_address_mask              = try(int.ipv4.address_mask, local.defaults.iosxe.devices.configuration.interfaces.vlans.ipv4.address_mask, null)
